@@ -1,0 +1,22 @@
+.pre:
+  image: node:17.6.0
+  script:
+      - cd static
+      - npm install
+  cache:
+      paths:
+          - static/node_modules
+          
+#Everything above this line is an attempt to use npm to install
+
+image: python:3.6
+pages:
+    stage: build
+    script:
+    - pip install --no-cache-dir -r dependencies.txt
+    - FLASK_APP=app.py flask freeze
+    artifacts:
+        paths:
+        - public
+    only:
+    - main
